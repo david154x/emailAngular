@@ -2,14 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-const StringBuilder = require('./StringBuilder');
-
 
 const app = express();
 
-app.use(cors({
-  origin: "https://email-angular-rouge.vercel.app/"
-}));
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -69,8 +65,6 @@ app.post("/sendMail", (req, res) => {
   });
 });
 
-module.exports = app;
-
 // Iniciar el servidor
 // solo para pruebas
 /*
@@ -78,3 +72,7 @@ app.listen(3000, () => {
   console.log("Servidor iniciado en el puerto 3000");
 });
 */
+
+module.exports = app;
+
+
