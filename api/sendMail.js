@@ -1,4 +1,7 @@
+const express = require("express");
 const nodemailer = require("nodemailer");
+
+const app = express();
 
 const transporter = nodemailer.createTransport({
   host: "smtp.office365.com",
@@ -9,6 +12,16 @@ const transporter = nodemailer.createTransport({
     pass: "rsavilla2023.*",
   },
 });
+
+// Middleware de CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
+app.use(express.json());
 
 async function sendEmail({
   nombreCompleto,
@@ -63,12 +76,13 @@ async function sendEmail({
   });
 }
 
-module.exports = async function (req, res) {
-  if (req.method === "POST") {
+app.post("/sendMail", async (req, res) => {
+  try {
     await sendEmail(req.body, res);
-  } else {
-    res
-      .status(400)
-      .json({ message: `Incorrect method: ${req.method}. Did you mean POST?` });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Ocurrió un error al enviar el correo." });
   }
-};
+});
+
+module.exports = app;
