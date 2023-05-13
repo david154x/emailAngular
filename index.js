@@ -7,7 +7,9 @@ const StringBuilder = require('./StringBuilder');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://email-angular-rouge.vercel.app/"
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
