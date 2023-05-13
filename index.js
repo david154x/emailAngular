@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Ruta para el endpoint de envío de correo
-app.post("/sendMail", (req, res) => {
+app.post("/", (req, res) => {
   const {
     nombreCompleto,
     primerApellido,
@@ -67,11 +67,9 @@ app.post("/sendMail", (req, res) => {
 
 // Iniciar el servidor
 // solo para pruebas
-/*
 app.listen(3000, () => {
   console.log("Servidor iniciado en el puerto 3000");
 });
-*/
 
 module.exports = app;
 
