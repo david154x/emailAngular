@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+const StringBuilder = require('./StringBuilder');
+
 
 const app = express();
 
@@ -15,8 +17,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "david154x@hotmail.com",
-    pass: "Archyvela2022.*",
+    user: "rsavillasasbic@outlook.com",
+    pass: "rsavilla2023.*",
   },
 });
 
@@ -32,24 +34,26 @@ app.post("/sendMail", (req, res) => {
     detalle,
   } = req.body;
 
-  const messageBuilder = [];
 
-  messageBuilder.push('Recibe un cordial saludo: '+nombreCompleto+' '+primerApellido+' de antemano, deseamos que estes muy bien');
-  messageBuilder.push('Recien acabas de ponerte en contacto con nostros por nuestra pagina web, a continuacion confirmaremos los datos registrados');
-  messageBuilder.push("Línea 3");
-  messageBuilder.push("Línea 3");
-  messageBuilder.push("Línea 3");
-  messageBuilder.push("Línea 3");
-  messageBuilder.push("Línea 3");
-  messageBuilder.push("Línea 3");
-
-  const message = messageBuilder.join('\n');
+  const detalleFinal = 'Recibe un cordial saludo: ' + nombreCompleto + ' ' + primerApellido + ' de antemano deseamos y esperemos se encuentre bien, ' +
+  'queremos informarle que debido a que usted llenó nuestro formulario de contactenos, hemos generado este email automático con el fin de confirmar su solicitud.\n'
+  +'\n'
+  +'Nombre: ' + nombreCompleto + ' ' + primerApellido +' \n'+
+  'Ciudad: ' + ciudad + '\n' +
+  'Teléfono: ' + telefono + '\n'
+  +'\n'+
+  'A continuación vamos a relacionar la solicitud recibida: \n'
+  +'\n'
+  +detalle
+  +'\n'
+  +'\n'
+  +'Este es un mensaje automatico porfavor no responda este email';
 
   const mailOptions = {
-    from: "david154x@hotmail.com",
+    from: "rsavillasasbic@outlook.com",
     to: email,
-    subject: "Hemos recibido tu solicitud",
-    text: message,
+    subject: "¡Hemos recibido tu solicitud!",
+    text: detalleFinal,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
